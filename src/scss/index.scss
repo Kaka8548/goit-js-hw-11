@@ -13,9 +13,16 @@ body {
   margin: 0;
 }
 
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .header {
   padding-top: 10px;
   padding-bottom: 10px;
+  margin-bottom: 30px;
   background-color: #4056b4;
 }
 
@@ -46,4 +53,33 @@ body {
   min-width: 40px;
   border: 1px solid transparent;
   border-radius: 0 3px 3px 0;
+}
+
+.gallery {
+  padding-left: 15px;
+  padding-right: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.photo-card {
+  width: calc((100% - 45px) / 4);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 4px;
+}
+
+.info {
+  padding-left: 5px;
+  padding-right: 5px;
+  display: flex;
+  gap: 7px;
+  font-size: 12px;
+}
+
+.info-item {
+  width: calc((100% - 31px) / 4);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
