@@ -35,6 +35,11 @@ img {
   height: auto;
 }
 
+button:hover,
+button:focus {
+  cursor: pointer;
+}
+
 .header {
   padding-top: 10px;
   padding-bottom: 10px;
