@@ -2,11 +2,14 @@ import './scss/index.scss';
 import { PixabayApi } from './PixabayApi';
 import galleryPhotoTemplate from './galleryPhotoTemplate';
 import Notiflix from 'notiflix';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const searchFormEl = document.querySelector('.search-form');
 const galleryEl = document.querySelector('.gallery');
 const loadMoreBtnEl = document.querySelector('.load-more');
 const pixabayApi = new PixabayApi();
+const gallery = new SimpleLightbox('.gallery a');
 
 function showResult(response) {
   console.log(response);
@@ -15,6 +18,7 @@ function showResult(response) {
   const photos = galleryPhotoTemplate(data);
   galleryEl.innerHTML = photos;
   loadMoreBtnEl.classList.remove('visually-hidden');
+  gallery.refresh();
 
   if (data.hits.length === 0) {
     Notiflix.Notify.failure(
@@ -27,7 +31,7 @@ function loadMoreResult(response) {
   const { data } = response;
   const photos = galleryPhotoTemplate(data);
   galleryEl.insertAdjacentHTML('beforeend', photos);
-  console.log(data.totalHits);
+  gallery.refresh();
   if (galleryEl.children.length >= data.totalHits) {
     Notiflix.Notify.failure(
       `We're sorry, but you've reached the end of search results.`

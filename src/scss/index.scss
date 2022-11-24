@@ -81,6 +81,8 @@ img {
 }
 
 .photo-card {
+  color: inherit;
+  text-decoration: none;
   width: calc((100% - 45px) / 4);
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 4px;
