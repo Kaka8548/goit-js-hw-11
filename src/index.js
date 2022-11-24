@@ -11,20 +11,29 @@ const loadMoreBtnEl = document.querySelector('.load-more');
 const pixabayApi = new PixabayApi();
 const gallery = new SimpleLightbox('.gallery a');
 
+function scrollSmooth() {
+  const { height: cardHeight } =
+    galleryEl.firstElementChild.getBoundingClientRect();
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
+}
+
 function showResult(response) {
-  console.log(response);
   const { data } = response;
+  if (data.hits.length === 0) {
+    Notiflix.Notify.failure(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
+    return;
+  }
   Notiflix.Notify.success(`We found ${data.totalHits} images for you 💚`);
   const photos = galleryPhotoTemplate(data);
   galleryEl.innerHTML = photos;
   loadMoreBtnEl.classList.remove('visually-hidden');
   gallery.refresh();
-
-  if (data.hits.length === 0) {
-    Notiflix.Notify.failure(
-      'Sorry, there are no images matching your search query. Please try again.'
-    );
-  }
+  scrollSmooth();
 }
 
 function loadMoreResult(response) {
@@ -32,6 +41,8 @@ function loadMoreResult(response) {
   const photos = galleryPhotoTemplate(data);
   galleryEl.insertAdjacentHTML('beforeend', photos);
   gallery.refresh();
+  scrollSmooth();
+
   if (galleryEl.children.length >= data.totalHits) {
     Notiflix.Notify.failure(
       `We're sorry, but you've reached the end of search results.`

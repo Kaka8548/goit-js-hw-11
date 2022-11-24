@@ -12,7 +12,6 @@ export default function galleryPhotoTemplate(data) {
         </a>`;
     })
     .join('');
-  console.log(photos);
 
   return photos;
 }
