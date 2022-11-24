@@ -6,6 +6,7 @@ export class PixabayApi {
 
   constructor() {
     this.query = null;
+    this.page = null;
   }
 
   fetchPhotos() {
@@ -15,8 +16,8 @@ export class PixabayApi {
       image_type: 'photo',
       orientation: 'horizontal',
       safesearch: true,
-      page: 1,
-      per_page: 10,
+      page: this.page,
+      per_page: 40,
     });
 
     return axios.get(`${this.#API_URL}?${searchParams}`);

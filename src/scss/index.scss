@@ -11,6 +11,22 @@ body {
   color: #212121;
   line-height: 1.5;
   margin: 0;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
 }
 
 img {
@@ -58,6 +74,7 @@ img {
 .gallery {
   padding-left: 15px;
   padding-right: 15px;
+  margin-bottom: 20px;
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
@@ -82,4 +99,15 @@ img {
   text-align: center;
   display: flex;
   flex-direction: column;
+}
+
+.load-more {
+  display: inline-block;
+  margin: 0 auto;
+  padding: 5px 15px;
+  font-size: 18px;
+  color: white;
+  background-color: #4056b4;
+  border: 1px solid transparent;
+  border-radius: 3px;
 }

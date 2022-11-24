@@ -5,12 +5,16 @@ import Notiflix from 'notiflix';
 
 const searchFormEl = document.querySelector('.search-form');
 const galleryEl = document.querySelector('.gallery');
+const loadMoreBtnEl = document.querySelector('.load-more');
+const pixabayApi = new PixabayApi();
 
 function showResult(response) {
   console.log(response);
   const { data } = response;
+  Notiflix.Notify.success(`We found ${data.totalHits} images for you 💚`);
   const photos = galleryPhotoTemplate(data);
   galleryEl.innerHTML = photos;
+  loadMoreBtnEl.classList.remove('visually-hidden');
 
   if (data.hits.length === 0) {
     Notiflix.Notify.failure(
@@ -19,10 +23,24 @@ function showResult(response) {
   }
 }
 
-const pixabayApi = new PixabayApi();
+function loadMoreResult(response) {
+  const { data } = response;
+  const photos = galleryPhotoTemplate(data);
+  galleryEl.insertAdjacentHTML('beforeend', photos);
+  console.log(data.totalHits);
+  if (galleryEl.children.length >= data.totalHits) {
+    Notiflix.Notify.failure(
+      `We're sorry, but you've reached the end of search results.`
+    );
+    loadMoreBtnEl.classList.add('visually-hidden');
+    return;
+  }
+}
 
 function onSearchFormElSubmit(event) {
   event.preventDefault();
+  pixabayApi.page = 1;
+  loadMoreBtnEl.classList.add('visually-hidden');
   pixabayApi.query = event.target[0].value;
 
   pixabayApi
@@ -33,4 +51,17 @@ function onSearchFormElSubmit(event) {
     .catch(err => console.log(err));
 }
 
+function onLoadMoreBtnClick(event) {
+  event.preventDefault();
+  pixabayApi.page += 1;
+
+  pixabayApi
+    .fetchPhotos()
+    .then(response => {
+      loadMoreResult(response);
+    })
+    .catch(err => console.log(err));
+}
+
 searchFormEl.addEventListener('submit', onSearchFormElSubmit);
+loadMoreBtnEl.addEventListener('click', onLoadMoreBtnClick);
