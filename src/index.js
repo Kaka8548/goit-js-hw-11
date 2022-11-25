@@ -35,6 +35,7 @@ function showResult(response) {
   galleryEl.innerHTML = photos;
   scrollSmooth();
   gallery.refresh();
+  window.addEventListener('scroll', onScroll);
 }
 
 function loadMoreResult(response) {
@@ -91,4 +92,3 @@ function onScroll() {
 }
 
 searchFormEl.addEventListener('submit', onSearchFormElSubmit);
-window.addEventListener('scroll', onScroll);
