@@ -8,6 +8,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const searchFormEl = document.querySelector('.search-form');
 const galleryEl = document.querySelector('.gallery');
 const loadMoreBtnEl = document.querySelector('.load-more');
+let firstQuery = null;
 
 const pixabayApi = new PixabayApi();
 const gallery = new SimpleLightbox('.gallery a');
@@ -48,6 +49,17 @@ function loadMoreResult(response) {
 
 async function onSearchFormElSubmit(event) {
   event.preventDefault();
+  if (event.target[0].value === firstQuery) {
+    Notiflix.Notify.info(
+      `There are ${event.target[0].value} images already 💙`
+    );
+    return;
+  }
+  if (event.target[0].value === '') {
+    Notiflix.Notify.info(`Type something 💙`);
+    return;
+  }
+  firstQuery = event.target[0].value;
   pixabayApi.page = 1;
   pixabayApi.query = event.target[0].value;
 
@@ -64,7 +76,6 @@ async function fetchMore() {
 
   try {
     const response = await pixabayApi.fetchPhotos();
-    console.log(response);
     if (response.data.hits.length === 0) {
       window.removeEventListener('scroll', onScroll);
       Notiflix.Notify.failure(
@@ -86,7 +97,6 @@ function onScroll() {
     window.scrollY + window.innerHeight + 1 >=
     document.documentElement.scrollHeight
   ) {
-    console.log(`hello`);
     fetchMore();
   }
 }
