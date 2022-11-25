@@ -65,6 +65,7 @@ async function fetchMore() {
     const response = await pixabayApi.fetchPhotos();
     console.log(response);
     if (response.data.hits.length === 0) {
+      window.removeEventListener('scroll', onScroll);
       Notiflix.Notify.failure(
         `We're sorry, but you've reached the end of search results.`
       );
@@ -72,10 +73,10 @@ async function fetchMore() {
     loadMoreResult(response);
   } catch (err) {
     console.log(err);
+    window.removeEventListener('scroll', onScroll);
     Notiflix.Notify.failure(
       `We're sorry, but you've reached the end of search results.`
     );
-    window.removeEventListener('scroll', onScroll);
   }
 }
 
